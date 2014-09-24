@@ -38,7 +38,9 @@ void key1(){
 
 void key2(){
     // todo replace with series of matrix transformations (using Translate, Rotate, Scale functions)
-    view = LookAt(vec4(-.5, 1, 6,1), vec4(-2,1,0,1), vec4(0,1,0,0));
+	mat4 newView;
+    //view = LookAt(vec4(-.5, 1, 6,1), vec4(-2,1,0,1), vec4(0,1,0,0));
+	view = RotateY(-atan(1.5/6.0)/DegreesToRadians) * Translate(.5, -1, -6);
 }
 
 void key3(){

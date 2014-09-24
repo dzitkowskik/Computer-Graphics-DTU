@@ -131,10 +131,14 @@ void display() {
 	
     glUseProgram(shaderProgram);
 
-	mat4 projection = Ortho(-6., 6., -6., 6., -6., 10.);
+	//mat4 projection = Ortho(-6., 6., -6., 6., -6., 10.);
+	mat4 projection = Angel::Perspective(45, 1, 1, 100);
 	glUniformMatrix4fv(projectionUniform, 1, GL_TRUE, projection);
 
-	mat4 modelView;
+	vec3 eye(20, 5, 5);
+	vec3 up(0, 1, 0);
+	vec3 at(0, 5, 5);
+	mat4 modelView = Angel::LookAt(eye, at, up);//*Angel::Scale(3,3,3);
 
 	vec4 white(1.0, 1.0, 1.0, 1.0);
 	glUniform4fv(colorUniform, 1, white);

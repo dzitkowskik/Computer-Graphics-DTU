@@ -137,12 +137,17 @@ void display() {
 
 	mat4 modelView(1.0f);
 
+
+
 	vec4 red(1.0, 0.0, 0.0, 1.0);
 	glUniform4fv(colorUniform, 1, red);
 	glUniformMatrix4fv(modelViewUniform, 1, GL_TRUE, modelView);
     drawAxis();
 	
 	// todo multiply model transformations 
+	modelView *= Angel::Translate(0,3,0);
+	modelView *= Angel::Scale(2,2,2);
+	modelView *= Angel::RotateY(30);
 
 	vec4 white(1.0, 1.0, 1.0, 1.0);
 	glUniform4fv(colorUniform, 1, white);
