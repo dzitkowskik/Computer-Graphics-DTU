@@ -1,18 +1,18 @@
 #version 150 
 
-in  vec3 vPosition;
-in  vec3 vNormal;
-out vec4 color;
-
-uniform vec4 AmbientProduct, DiffuseProduct, SpecularProduct;
 uniform mat4 ModelView;
 uniform mat4 Projection;
-uniform vec4 LightPosition;
-uniform float Shininess;
+
+in  vec3 vPosition;
+in  vec3 vNormal;
+
+out vec3 fragPosition;
+out vec3 fragNormal;
 
 void main()
 {
-    gl_Position = Projection * ModelView * vec4(vPosition, 1.0);
+	fragPosition = vPosition;
+	fragNormal = vNormal;
 
-    color = vec4(0.0,1.0,0.0,1.0);
+    gl_Position = Projection * ModelView * vec4(vPosition, 1.0);
 }

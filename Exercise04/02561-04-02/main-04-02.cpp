@@ -21,6 +21,9 @@ GLuint  ModelView, Projection;
 
 GLuint program;
 
+// Light
+float lightType = 0.0;
+
 //----------------------------------------------------------------------------
 void loadModel(int modelIndex){
 	char *modelName;
@@ -113,7 +116,7 @@ void display( void ) {
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
 
 	// Initialize shader lighting parameters
-    vec4 light_position( 0.0, 0.0, -1.0, 0.0 );
+    vec4 light_position( 0.0, 0.0, 1.0, lightType );
     vec4 light_ambient( 0.2, 0.2, 0.2, 1.0 );
     vec4 light_diffuse( 1.0, 1.0, 1.0, 1.0 );
     vec4 light_specular( 1.0, 1.0, 1.0, 1.0 );
@@ -198,6 +201,10 @@ void keyboard( unsigned char key, int x, int y ) {
 	case 'r':
 		cout << "Reload shaders" << endl;
 		reloadShader();
+		break;
+	case 'W':
+	case 'w':
+		lightType = lightType == 0.0 ? 1.0 : 0.0;
 		break;
     }
 }

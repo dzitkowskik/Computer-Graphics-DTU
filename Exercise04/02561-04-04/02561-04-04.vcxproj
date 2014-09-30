@@ -21,6 +21,7 @@
     <ClInclude Include="Angel\mat.h" />
     <ClInclude Include="Angel\ObjLoader.h" />
     <ClInclude Include="Angel\vec.h" />
+    <ClInclude Include="Uniform.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -30,8 +31,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="phong-shader.frag" />
-    <None Include="phong-shader.vert" />
+    <None Include="phong-shader.frag">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="phong-shader.vert">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C4768FF7-564E-4D74-8937-04807ED642C8}</ProjectGuid>

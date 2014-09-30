@@ -1,7 +1,9 @@
 // 02561-04-04
 #include "Angel.h"
 #include "ObjLoader.h"
+#include "Uniform.h"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -20,6 +22,16 @@ GLfloat  Theta[3] = { 0.0, 30.0, 30.0 };
 GLuint  ModelView, Projection;
 
 GLuint program;
+
+// Light
+struct Light 
+{
+	vec3 position;
+	vec3 color;
+	float lightType;
+	float attenuation;
+	float ambientCoefficient;
+};
 
 //----------------------------------------------------------------------------
 void loadModel(int modelIndex){
@@ -75,12 +87,64 @@ void loadModel(int modelIndex){
     
 }
 
+template<typename T>
+void setLightUniform(const char* uniformName, size_t index, const T& value)
+{
+	std::ostringstream ss;
+	ss << "Lights[" << index << "]." << uniformName;
+	std::string name = ss.str();
+	_Uniform<T> uniformSetter;
+
+	uniformSetter.Register(program, name.c_str());
+	uniformSetter.SetData(value);
+}
+
+void loadLights()
+{
+	std::vector<Light> lights;
+
+	Light first;
+	first.position = vec3(-4, 2, 4);
+	first.color = vec3(3, 0, 0);
+	first.ambientCoefficient = 0.0f; // no ambient
+	first.attenuation = 0.1f;
+	first.lightType = 1.0;
+	lights.push_back(first);
+
+	Light second;
+	second.position = vec3(0, 0, 1);
+	second.color = vec3(0, 2, 0);
+	second.ambientCoefficient = 0.08f;
+	second.attenuation = 0.2f;
+	second.lightType = 0.0;
+	lights.push_back(second);
+
+	Light third;
+	third.position = vec3(0, 4, 5);
+	third.color = vec3(0, 0, 1);
+	third.ambientCoefficient = 0.02f;
+	third.attenuation = 0.03f;
+	third.lightType = 0.0;
+	lights.push_back(third);
+
+	for(size_t i = 0; i < lights.size(); ++i)
+	{
+		setLightUniform("position",i,lights[i].position);
+		setLightUniform("color",i,lights[i].color);
+		setLightUniform("lightType",i,lights[i].lightType);
+		setLightUniform("attenuation",i,lights[i].attenuation);
+		setLightUniform("ambientCoefficient",i,lights[i].ambientCoefficient);
+	}
+
+	glUniform1i( glGetUniformLocation(program, "NumLights"), lights.size() );
+}
+
 void reloadShader(){
 	// Load shaders and use the resulting shader program
     program = InitShader( "phong-shader.vert", "phong-shader.frag", "fragColor" );
     glUseProgram( program );
 	loadModel( selectedModel );
-	 
+	loadLights();
     // Retrieve transformation uniform variable locations
     ModelView = glGetUniformLocation( program, "ModelView" );
     Projection = glGetUniformLocation( program, "Projection" );
@@ -112,33 +176,13 @@ void display( void ) {
     
     glUniformMatrix4fv( ModelView, 1, GL_TRUE, model_view );
 
-	// Initialize shader lighting parameters
-    vec4 light_position( 0.0, 0.0, -1.0, 0.0 );
-    vec4 light_ambient( 0.2, 0.2, 0.2, 1.0 );
-    vec4 light_diffuse( 1.0, 1.0, 1.0, 1.0 );
-    vec4 light_specular( 1.0, 1.0, 1.0, 1.0 );
-
-    vec4 material_ambient( 1.0, 0.0, 1.0, 1.0 );
-    vec4 material_diffuse( 1.0, 0.8, 0.0, 1.0 );
-    vec4 material_specular( 1.0, 0.8, 0.0, 1.0 );
+    vec4 material_color( 0.2, 0.3, 0.5, 1.0 );
+	vec4 material_specular_color( 1.0, 1.0, 1.0, 1.0 );
     float  material_shininess = 100.0;
 
-    vec4 ambient_product = light_ambient * material_ambient;
-    vec4 diffuse_product = light_diffuse * material_diffuse;
-    vec4 specular_product = light_specular * material_specular;
-
-    glUniform4fv( glGetUniformLocation(program, "AmbientProduct"),
-		  1, ambient_product );
-    glUniform4fv( glGetUniformLocation(program, "DiffuseProduct"),
-		  1, diffuse_product );
-    glUniform4fv( glGetUniformLocation(program, "SpecularProduct"),
-		  1, specular_product );
-	
-    glUniform4fv( glGetUniformLocation(program, "LightPosition"),
-		  1, light_position );
-
-    glUniform1f( glGetUniformLocation(program, "Shininess"),
-		 material_shininess );
+    glUniform4fv( glGetUniformLocation(program, "MaterialColor"), 1, material_color );
+	glUniform4fv( glGetUniformLocation(program, "MaterialSpecularColor"), 1, material_specular_color );
+    glUniform1f( glGetUniformLocation(program, "Shininess"), material_shininess );
 
     glDrawElements( GL_TRIANGLES, meshIndices.size(), GL_UNSIGNED_INT, &meshIndices[0]);
     glutSwapBuffers();

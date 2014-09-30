@@ -4,10 +4,10 @@
     <ClCompile Include="Angel\InitShader.cpp">
       <Filter>Angel</Filter>
     </ClCompile>
-    <ClCompile Include="main-05-04.cpp" />
     <ClCompile Include="Angel\ObjLoader.cpp">
       <Filter>Angel</Filter>
     </ClCompile>
+    <ClCompile Include="main-04-04.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Angel">
@@ -30,6 +30,7 @@
     <ClInclude Include="Angel\ObjLoader.h">
       <Filter>Angel</Filter>
     </ClInclude>
+    <ClInclude Include="Uniform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="phong-shader.frag" />
