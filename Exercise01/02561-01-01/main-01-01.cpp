@@ -45,6 +45,7 @@ void display() {
 
 	glBindVertexArray(vertexArrayObject);
     
+	// glDrawArrays with flag GL_TRIANGLES draws a triangle for each 3 points in VertexArray
 	glDrawArrays(GL_TRIANGLES, 0, NUMBER_OF_VERTICES);
 	
 	glutSwapBuffers();
@@ -101,3 +102,36 @@ int main(int argc, char* argv[]) {
 	Angel::CheckError();
 	glutMainLoop();
 }
+
+// glGetAttribLocation - Returns the location of an attribute variable
+// glClearColor — specify clear values for the color buffers
+// glClear — clear buffers to preset values
+// glUseProgram — Installs a program object as part of current rendering state
+// glBindVertexArray - binds the vertex array object with name
+// glDrawArrays — render primitives from array data
+// glutSwapBuffers - swaps the buffers of the current window if double buffered
+// glViewport - sets the viewport
+// glGenVertexArrays — generate vertex array object names
+// glGenBuffers — generate buffer object names
+// glBindBuffer — bind a named buffer object
+// glBufferData — creates and initializes a buffer object's data store
+
+/* glEnableVertexAttribArray - enables the generic vertex attribute array
+ * (By default, all client-side capabilities are disabled, including all generic vertex attribute arrays. 
+ * If enabled, the values in the generic vertex attribute array will be accessed and used for rendering
+ * when calls are made to vertex array commands such as glDrawArrays)
+ */
+
+// glVertexAttribPointer - specify the location and data format of the array of generic vertex attributes at index index to use when rendering
+// Angel::InitShader - initializes shader programs stored in files passed as attributes
+// glutInit - initializes the GLUT library
+// glutInitContextVersion - sets openGL version we use
+// glutInitContextFlags - sets flags in GLUT library
+// glutInitContextProfile - sets profile of GLUT library
+// glutInitDisplayMode - sets the initial display mode
+// glutCreateWindow - creates a top-level window with a name passed as argument.
+// glutDisplayFunc - sets the display callback for the current window
+// glutReshapeFunc - sets the reshape callback for the current window
+// glutReshapeWindow - sets the window width and height
+// Angel::InitOpenGL - initializes OpenGL
+// glutMainLoop - enters the GLUT event processing loop

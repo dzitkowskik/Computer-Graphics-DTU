@@ -26,6 +26,7 @@
 \usepackage{graphicx} % Required for the inclusion of images
 \usepackage{natbib} % Required to change bibliography style to APA
 \usepackage{amsmath} % Required for some math elements 
+\usepackage{listings}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{titlesec, blindtext, color}
@@ -46,6 +47,39 @@
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 %\usepackage{times} % Uncomment to use the Times New Roman font
 
+\usepackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{dred}{rgb}{0.545,0,0}
+\definecolor{dblue}{rgb}{0,0,0.545}
+\definecolor{lgrey}{rgb}{0.95,0.95,0.95}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\lstdefinelanguage{cpp}{
+      backgroundcolor=\color{lgrey},  
+      basicstyle=\footnotesize \ttfamily \color{black} \bfseries,   
+      breakatwhitespace=false,       
+      breaklines=true,               
+      captionpos=b,                   
+      commentstyle=\color{dkgreen},   
+      deletekeywords={...},          
+      escapeinside={\%*}{*)},                  
+      frame=single,                  
+      language=C++,                
+      keywordstyle=\color{purple},  
+      morekeywords={vec2,vec3,Vertex,string,mat4,Angel}, 
+      identifierstyle=\color{darkblue},
+      stringstyle=\color{orange},      
+      numbers=left,                 
+      numbersep=5pt,                  
+      numberstyle=\tiny\color{blue}, 
+      rulecolor=\color{orange},        
+      showspaces=false,               
+      showstringspaces=false,        
+      showtabs=false,                
+      stepnumber=1,                   
+      tabsize=5,                     
+      title=\lstname,                 
+    }
 
 %----------------------------------------------------------------------------------------
 %	DOCUMENT INFORMATION
@@ -61,7 +95,7 @@
 \HRule \\[1.5cm]
 \begin{figure}[b]
 	\begin{center}
-		\includegraphics{DTU-logo}
+		\includegraphics{figures/DTU-logo}
 	\end{center}
 \end{figure}
 
