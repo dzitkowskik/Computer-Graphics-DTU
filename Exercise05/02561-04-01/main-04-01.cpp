@@ -256,6 +256,7 @@ void display() {
 	mat4 modelView;
 	glUniformMatrix4fv(modelViewUniform, 1, GL_TRUE, modelView);
 	bool fillPolygonOld = fillPolygon;
+	
 	// draw menu background
 	glUniform4fv(colorUniform, 1, vec4(1.0, 1.0, 1.0, 1.0));
 	draw_point(vec2(0,WINDOW_HEIGHT-WINDOW_WIDTH/10),WINDOW_WIDTH/10);
@@ -275,6 +276,7 @@ void display() {
 	vec2(WINDOW_WIDTH/5+3*WINDOW_WIDTH/40,WINDOW_HEIGHT-WINDOW_WIDTH/10+WINDOW_WIDTH/40));
 	draw_point(vec2(3*WINDOW_WIDTH/10+WINDOW_WIDTH/20-2, WINDOW_HEIGHT-WINDOW_WIDTH/20-2),4);
 	fillPolygon = fillPolygonOld;
+	
 	glFlush();
 
 	Angel::CheckError();

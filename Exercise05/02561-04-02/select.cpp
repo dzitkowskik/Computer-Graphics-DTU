@@ -28,8 +28,7 @@ void SelectBuffer::buildTexture() {
 	GLuint internalFormat = GL_RGB;
     GLuint format = GL_RGB;
 	GLuint storageType = GL_UNSIGNED_BYTE;
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height,
-            0, format, storageType, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, storageType, NULL);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
