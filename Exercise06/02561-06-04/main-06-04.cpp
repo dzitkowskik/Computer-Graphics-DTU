@@ -21,7 +21,7 @@ GLuint positionAttribute,
 GLuint polygonVertexArrayObject;
 GLuint textureId;
 
-const int polygonSize = 4;
+const int polygonSize = 5;
 
 struct Vertex {
     vec4 position;
@@ -34,10 +34,11 @@ GLuint loadBufferData(Vertex* vertices, int vertexCount);
 
 void buildPolygon() {
 	Vertex polygonData[polygonSize] = {
-		{vec4(0., 1, 1, 1.0), vec2(1,1)},
-		{vec4(0.,-1, 1, 1.0), vec2(0,1)}, 
+		{vec4(0., 1, 1, 1.0), vec2(2,2)},
+		{vec4(0.,-1, 1, 1.0), vec2(0,2)}, 
 		{vec4(0.,-1,-1, 1.0), vec2(0,0)},
-		{vec4(0., 1,-1, 1.0), vec2(1,0)}
+		{vec4(0., 1,-1, 1.0), vec2(2,0)},
+		{vec4(0., 2, 0, 1.0), vec2(3,1)}
 	};
 	polygonVertexArrayObject = loadBufferData(polygonData, polygonSize);
 }
@@ -154,11 +155,38 @@ void keyboard(unsigned char c, int x, int y){
 	glBindTexture(GL_TEXTURE_2D, textureId);
 
 	switch (c){
-	case '1':
-		glutSetWindowTitle("T: Repeat");
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		break;
-		// todo implement for rest of combinations (for both T and S)
+		case '1':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			break;
+		case '2':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			break;
+		case '3':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+			break;
+		case '4':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+			break;
+		case '5':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_EDGE);
+			break;
+		case '6':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_EDGE);
+			break;
+		case '7':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_BORDER);
+			break;
+		case '8':
+			glutSetWindowTitle("T: Repeat");
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_BORDER);
+			break;
 	}
 	glutPostRedisplay();
 }

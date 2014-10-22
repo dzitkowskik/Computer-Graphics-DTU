@@ -30,6 +30,10 @@ struct Vertex {
 	vec2 textureCoord;
 };
 
+float rotation = 0.0f;
+float rotRate = 45.0f;
+float TIMERMSECS = 100;
+
 void loadShader();
 void display();
 GLuint loadBufferData(Vertex* vertices, int vertexCount);
@@ -97,6 +101,7 @@ void drawPolygon() {
 }
 
 void display() {	
+
     glClearColor(1.,1.,1.,1.);
     glClear(GL_COLOR_BUFFER_BIT);
 	
@@ -111,7 +116,7 @@ void display() {
 	mat4 modelView = LookAt(eye, at, up);
 	glUniformMatrix4fv(modelViewUniform, 1, GL_TRUE, modelView);
 	
-	mat4 textureTrans;
+	mat4 textureTrans = RotateZ(rotation);
 	glUniformMatrix4fv(textureTransUniform, 1, GL_TRUE, textureTrans);
 	
 	// bind texture
@@ -124,6 +129,14 @@ void display() {
 	glutSwapBuffers();
 
 	Angel::CheckError();
+}
+
+// using glutTimerFunc(TIMERMSECS, animate, 0); in main()
+void animate(int value)
+{ 
+	rotation = rotRate / 1000 *  glutGet(GLUT_ELAPSED_TIME);
+    glutTimerFunc(TIMERMSECS, animate, 0);
+	glutPostRedisplay();
 }
 
 void reshape(int W, int H) {
@@ -173,6 +186,7 @@ int main(int argc, char* argv[]) {
 	glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE|GLUT_3_2_CORE_PROFILE);
 	glutCreateWindow("02561-06-05");
 	glutDisplayFunc(display);
+	glutTimerFunc(TIMERMSECS, animate, 0);
 	glutReshapeFunc(reshape);
 	glutReshapeWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 

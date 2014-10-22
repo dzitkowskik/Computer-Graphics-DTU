@@ -56,7 +56,7 @@ void display() {
 	
     glUseProgram(shaderProgram);
 
-	mat4 projection = Perspective(60,WINDOW_WIDTH/(float)WINDOW_HEIGHT, 0.01, 100);
+	mat4 projection = Perspective(30,WINDOW_WIDTH/(float)WINDOW_HEIGHT, 9.5, 11);
 	glUniformMatrix4fv(projectionUniform, 1, GL_TRUE, projection);
 
 	vec4 eye(3,5,10,1);

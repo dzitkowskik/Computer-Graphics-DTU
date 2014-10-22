@@ -152,14 +152,43 @@ void reshape(int W, int H) {
 
 void keyboard(unsigned char c, int x, int y){
 	glBindTexture(GL_TEXTURE_2D, textureId);
-
-	switch (c){
-	case '1':
-		glutSetWindowTitle("Mag: Nearest");
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		break;
-		// todo implement for rest of combinations (for both minfication and magnification filter)
+	
+	switch (c)
+	{
+		case '1':
+			glutSetWindowTitle("Mag: Linear");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			break;
+		case '2':
+			glutSetWindowTitle("Min: Linear");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			break;
+		case '3':
+			glutSetWindowTitle("Mag: Nearest");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			break;
+		case '4':
+			glutSetWindowTitle("Min: Nearest");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			break;
+		case '5':
+			glutSetWindowTitle("Min: Nearest mipmap linear");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+			break;
+		case '6':
+			glutSetWindowTitle("Min: Nearest mipmap nearest");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+			break;
+		case '7':
+			glutSetWindowTitle("Min: Linear mipmap Linear");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			break;
+		case '8':
+			glutSetWindowTitle("Min: Linear mipmap nearest");
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+			break;
 	}
+
 	glutPostRedisplay();
 }
 

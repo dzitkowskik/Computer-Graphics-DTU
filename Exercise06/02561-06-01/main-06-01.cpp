@@ -138,7 +138,7 @@ void drawPolygon() {
 
 void display() {	
     glClearColor(1.,1.,1.,1.);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
     glUseProgram(shaderProgram);
 
@@ -155,7 +155,7 @@ void display() {
 	glUniform4fv(colorUniform, 1, red);
 	drawLines();
 	
-	glUniform4fv(colorUniform, 1, vec4(0., 1., 0., 1.0));
+	glUniform4fv(colorUniform, 1, vec4(1., 1., 0., 1.0));
 	drawPolygon();
 	
 	glUniform4fv(colorUniform, 1, vec4(0., 1., 1., 1.0));
@@ -177,6 +177,51 @@ void reshape(int W, int H) {
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 
+void keyboard( unsigned char key, int x, int y)
+{
+	// Back face can be declared based on the normal vector and the vector connecting the surface and the camera.
+	switch (key)
+	{
+	case '1':
+		glEnable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+		glutPostRedisplay();
+		break;
+	case '2':
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+		glutPostRedisplay();
+		break;
+	case '3':
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glutPostRedisplay();
+		break;
+	case '4':
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glutPostRedisplay();
+		break;
+	case 'B':
+	case 'b':
+		glCullFace(GL_BACK);
+		glutPostRedisplay();
+		break;
+	case 'F':
+	case 'f':
+		glCullFace(GL_FRONT);
+		glutPostRedisplay();
+		break;
+	case 'A':
+	case 'a':
+		glCullFace(GL_FRONT_AND_BACK);
+		glutPostRedisplay();
+		break;
+	default:
+		break;
+	}
+}
+
 int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
 	glutInitContextVersion(3, 2);
@@ -188,10 +233,11 @@ int main(int argc, char* argv[]) {
         GLUT_ACTION_GLUTMAINLOOP_RETURNS
     );
 
-	glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE|GLUT_3_2_CORE_PROFILE);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_3_2_CORE_PROFILE | GLUT_DEPTH);
 	glutCreateWindow("02561-06-01");
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
+	glutKeyboardFunc(keyboard);
 	glutReshapeWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	Angel::InitOpenGL();
