@@ -27,16 +27,17 @@ GLuint normalAttribute;
 GLuint unitCubeVertexArrayObject;
 GLuint wallVertexArrayObject;
 
-vec3 eyePointSpericalCoordinate(30,2*M_PI, 0.5*M_PI); // radius, altitude, azimuth
+vec3 eyePointSpericalCoordinate(40,2*M_PI, 0.5*M_PI); // radius, altitude, azimuth
 vec4 eyePoint(0,12,0,0);
 
-vec4 lightPos(10,2,0,1);
-vec4 initialLights(10,2,0,1);
+vec4 lightPos(14,5,2,1);
+vec4 initialLights(14,5,2,1);
 bool usePerspectiveShadow = true;
 bool pauseLight = false;
 Axis axis;
 
 std::vector<int> meshIndices;
+float lightType = 1.0;
 
 
 struct Vertex {
@@ -186,7 +187,8 @@ void setLightUniform(const char* uniformName, size_t index, const T& value)
 void loadLights()
 {
 	std::vector<Light> lights;
-	Light first;
+	
+	/*Light first;
 	first.position = vec3(-4, 2, 4);
 	first.color = vec3(1, 2, 2);
 	first.ambientCoefficient = 0.1f; // no ambient
@@ -208,14 +210,14 @@ void loadLights()
 	third.ambientCoefficient = 0.02f;
 	third.attenuation = 0.03f;
 	third.lightType = 0.0;
-	lights.push_back(third);
+	lights.push_back(third);*/
 
 	Light fourth;
 	fourth.position = vec3(lightPos.x, lightPos.y, lightPos.z);
-	fourth.color = vec3(2, 2, 1);
-	fourth.ambientCoefficient = 0.2f;
-	fourth.attenuation = 0.03f;
-	fourth.lightType = 0.0;
+	fourth.color = vec3(2, 2, 2);
+	fourth.ambientCoefficient = 0.3f;
+	fourth.attenuation = 0.01f;
+	fourth.lightType = lightType;
 	lights.push_back(fourth);
 
 	for(size_t i = 0; i < lights.size(); ++i)
@@ -331,6 +333,12 @@ void keyboard(unsigned char key, int x, int y)
 			cout << "Orthogonale shadow projection" << endl;
 		}
 		glutPostRedisplay();
+		break;
+	case '1':
+		lightType = 0.0f;
+		break;
+	case '2':
+		lightType = 1.0f;
 		break;
 	}
 }

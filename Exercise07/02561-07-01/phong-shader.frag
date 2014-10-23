@@ -21,16 +21,16 @@ in vec3 fragNormal;
 out vec4 fragColor;
 
 
-vec3 ApplyLight(Light light, vec3 normal, vec3 position)
+vec3 ApplyLight(Light light, vec3 normal, vec3 position, vec3 lightPosition)
 {
 	// directional
-	vec3 surfToLight = normalize(light.position);
+	vec3 surfToLight = normalize(lightPosition);
 	float attenuation = 1.0;
 
 	if(light.lightType == 1.0) // point
 	{
-		surfToLight = normalize(light.position - position);
-		float distance = length(light.position - position);
+		surfToLight = normalize(lightPosition - position);
+		float distance = length(lightPosition - position);
 		attenuation = 1.0 / (1.0 + light.attenuation * pow(distance, 2));
 	}
 
@@ -58,10 +58,12 @@ void main()
 	vec3 normal = normalize(transpose(inverse(mat3(ModelView))) * fragNormal);
 	vec3 position = vec3(ModelView * vec4(fragPosition, 1.0));
 	
+	
 	vec3 linearColor = vec3(0);
 	for(int i = 0; i < NumLights; ++i)
 	{
-		linearColor += ApplyLight(Lights[i], normal, position);
+		vec3 lightPosition = vec3(ModelView * vec4(Lights[i].position, 1.0));
+		linearColor += ApplyLight(Lights[i], normal, position, lightPosition);
 	}
 
 	fragColor = vec4(linearColor, 1.0);
