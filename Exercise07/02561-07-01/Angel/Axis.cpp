@@ -63,15 +63,15 @@ void Axis::renderWorldAxis(mat4& projection, vec4 eye, vec4 at, vec4 up, int win
 
 void Axis::initialize() {
 	shaderProgram = InitShader("const-shader.vert",  "const-shader.frag", "fragColor");
-	projectionUniform = glGetUniformLocation(shaderProgram, "projection");
+	projectionUniform = glGetUniformLocation(shaderProgram, "Projection");
 	if (projectionUniform == GL_INVALID_INDEX) {
 		cerr << "Shader did not contain the 'projection' uniform."<<endl;
 	}
-	modelViewUniform = glGetUniformLocation(shaderProgram, "modelView");
+	modelViewUniform = glGetUniformLocation(shaderProgram, "ModelView");
 	if (modelViewUniform == GL_INVALID_INDEX) {
 		cerr << "Shader did not contain the 'modelView' uniform."<<endl;
 	}
-	colorUniform = glGetUniformLocation(shaderProgram, "color");
+	colorUniform = glGetUniformLocation(shaderProgram, "Color");
 	if (colorUniform == GL_INVALID_INDEX) {
 		cerr << "Shader did not contain the 'color' uniform."<<endl;
 	}

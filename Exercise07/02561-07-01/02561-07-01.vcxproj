@@ -14,10 +14,17 @@
     <ClCompile Include="Angel\Axis.cpp" />
     <ClCompile Include="Angel\InitShader.cpp" />
     <ClCompile Include="main-07-01.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="const-shader.frag" />
     <None Include="const-shader.vert" />
+    <None Include="phong-shader.frag">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
+    <None Include="phong-shader.vert">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angel\Angel.h" />
@@ -25,6 +32,8 @@
     <ClInclude Include="Angel\CheckError.h" />
     <ClInclude Include="Angel\mat.h" />
     <ClInclude Include="Angel\vec.h" />
+    <ClInclude Include="ObjLoader.h" />
+    <ClInclude Include="Uniform.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

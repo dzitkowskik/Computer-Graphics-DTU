@@ -8,10 +8,13 @@
     <ClCompile Include="Angel\Axis.cpp">
       <Filter>Dependencies</Filter>
     </ClCompile>
+    <ClCompile Include="ObjLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="const-shader.vert" />
     <None Include="const-shader.frag" />
+    <None Include="phong-shader.frag" />
+    <None Include="phong-shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Dependencies">
@@ -34,5 +37,7 @@
     <ClInclude Include="Angel\Axis.h">
       <Filter>Dependencies</Filter>
     </ClInclude>
+    <ClInclude Include="Uniform.h" />
+    <ClInclude Include="ObjLoader.h" />
   </ItemGroup>
 </Project>
