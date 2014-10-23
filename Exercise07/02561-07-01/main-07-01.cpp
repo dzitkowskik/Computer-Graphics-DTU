@@ -19,32 +19,30 @@ int WINDOW_HEIGHT = 500;
 const int FRAMERATE_MS = 16; /* 60 fps */
 
 GLuint shaderProgram;
-GLuint projectionUniform,
-	modelViewUniform,
-	colorUniform;
+GLuint projectionUniform;
+GLuint modelViewUniform;
+GLuint colorUniform;
 GLuint positionAttribute;
 GLuint normalAttribute;
 GLuint unitCubeVertexArrayObject;
 GLuint wallVertexArrayObject;
 
-vec3 eyePointSpericalCoordinate(40,2*M_PI, 0.5*M_PI); // radius, altitude, azimuth
-vec4 eyePoint(0,12,0,0);
-
-vec4 lightPos(14,5,2,1);
-vec4 initialLights(14,5,2,1);
+// radius, altitude, azimuth
+vec3 eyePointSpericalCoordinate(10,2*M_PI, 0.5*M_PI); 
+vec4 eyePoint(5,5,5,0);
+vec4 lightPos(6,0,0,1);
+vec4 initialLights(6,0,0,1);
 bool usePerspectiveShadow = true;
 bool pauseLight = false;
 Axis axis;
-
 std::vector<int> meshIndices;
 float lightType = 1.0;
-
+GLfloat shadowDistance = -4;
 
 struct Vertex {
     vec4 position;
 };
 
-// Light
 struct Light 
 {
 	vec3 position;
@@ -63,7 +61,7 @@ void buildUnitCube() {
 	meshIndices.clear();
 	std::vector<vec3> outNormal;
 	std::vector<vec2> outUv;
-	loadObject("cube.obj", outPositions, meshIndices, outNormal, outUv, 2.5f);
+	loadObject("suzanne.obj", outPositions, meshIndices, outNormal, outUv, 1.0f);
 	unitCubeVertexArrayObject = loadBufferData(outPositions, outNormal);
 }
 
@@ -109,12 +107,6 @@ void loadShader(bool phong)
 	if(phong)
 	{
 		shaderProgram = InitShader( "phong-shader.vert", "phong-shader.frag", "fragColor" );
-		vec4 material_color( 0.2, 0.3, 0.5, 1.0 );
-		vec4 material_specular_color( 1.0, 1.0, 1.0, 1.0 );
-		float  material_shininess = 100.0;
-		glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialColor"), 1, material_color );
-		glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialSpecularColor"), 1, material_specular_color );
-		glUniform1f( glGetUniformLocation(shaderProgram, "Shininess"), material_shininess );
 	}
 	else
 	{
@@ -137,20 +129,26 @@ void loadShader(bool phong)
 	}
 }
 
-void drawScene(mat4 view){
+void drawScene(mat4 view)
+{
+	vec4 material_color(0.50754, 0.50754, 0.50754, 1.0);
+	vec4 material_specular_color( 0.508273, 0.508273, 0.508273, 1.0 );
+	float  material_shininess = 0.4*128;
+	glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialColor"), 1, material_color );
+	glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialSpecularColor"), 1, material_specular_color );
+	glUniform1f( glGetUniformLocation(shaderProgram, "Shininess"), material_shininess );
 	glUniformMatrix4fv(modelViewUniform, 1, GL_TRUE, view);
 	drawSolidUnitCube();
 }
 
-void drawLightSource(mat4 view){
+void drawLightSource(mat4 view)
+{
 	mat4 model = Translate(lightPos);
 	mat4 modelView = view * model;
-	
+	glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialColor"), 1, vec4(0.6, .7, 0.0, 1.0));
 	glUniformMatrix4fv(modelViewUniform, 1, GL_TRUE, modelView);
 	drawSolidUnitCube();
 }
-
-GLfloat shadowDistance = -7.98;
 
 mat4 createShadowProjection(vec4 light)
 {
@@ -187,38 +185,14 @@ void setLightUniform(const char* uniformName, size_t index, const T& value)
 void loadLights()
 {
 	std::vector<Light> lights;
-	
-	/*Light first;
-	first.position = vec3(-4, 2, 4);
-	first.color = vec3(1, 2, 2);
-	first.ambientCoefficient = 0.1f; // no ambient
-	first.attenuation = 0.1f;
-	first.lightType = 0.0;
-	lights.push_back(first);
 
-	Light second;
-	second.position = vec3(0, 0, 1);
-	second.color = vec3(0, 2, 0);
-	second.ambientCoefficient = 0.08f;
-	second.attenuation = 0.2f;
-	second.lightType = 0.0;
-	lights.push_back(second);
-
-	Light third;
-	third.position = vec3(0, 4, 5);
-	third.color = vec3(0, 0, 1);
-	third.ambientCoefficient = 0.02f;
-	third.attenuation = 0.03f;
-	third.lightType = 0.0;
-	lights.push_back(third);*/
-
-	Light fourth;
-	fourth.position = vec3(lightPos.x, lightPos.y, lightPos.z);
-	fourth.color = vec3(2, 2, 2);
-	fourth.ambientCoefficient = 0.3f;
-	fourth.attenuation = 0.01f;
-	fourth.lightType = lightType;
-	lights.push_back(fourth);
+	Light sun;
+	sun.position = vec3(lightPos.x, lightPos.y, lightPos.z);
+	sun.color = vec3(2, 2, 2);
+	sun.ambientCoefficient = 0.19225f;
+	sun.attenuation = 0.01f;
+	sun.lightType = lightType;
+	lights.push_back(sun);
 
 	for(size_t i = 0; i < lights.size(); ++i)
 	{
@@ -232,34 +206,33 @@ void loadLights()
 	glUniform1i( glGetUniformLocation(shaderProgram, "NumLights"), lights.size() );
 }
 
+mat4 getShadowProjection(bool usePerspectiveShadow)
+{
+	if (usePerspectiveShadow)
+		return createShadowProjectionPointLight();
+	return createShadowProjectionDirectionalLight();
+}
+
 void display() 
 {	
-	loadShader(true);
-	loadLights();
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+	loadShader(true);
+
 	mat4 projection = Perspective(45,WINDOW_WIDTH/(float)WINDOW_HEIGHT, 0.1, 100.);
 	glUniformMatrix4fv(projectionUniform, 1, GL_TRUE, projection);
 	mat4 view = LookAt(eyePoint,vec4(0,0,0,0), vec4(0,1,0,0));
 	
-	glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialColor"), 1, vec4(0.6, 0.0, 0.0, 1.0));
+	// draw scene & light source
+	loadLights();
 	drawScene(view);
-	glUniform4fv( glGetUniformLocation(shaderProgram, "MaterialColor"), 1, vec4(0.6, .7, 0.0, 1.0));
 	drawLightSource(view);
 
+	// draw axis and shadow (without lightning)
 	loadShader(false);
 	axis.renderWorldAxis(projection, eyePoint, vec4(0,0,0,0), vec4(0,1,0,0), WINDOW_WIDTH, WINDOW_HEIGHT);
-
-	// draw shadow
-	mat4 shadowProjection;
-	if (usePerspectiveShadow){
-		shadowProjection = createShadowProjectionPointLight();
-	} else {
-		shadowProjection = createShadowProjectionDirectionalLight();
-	}
 	glUniform4fv(colorUniform, 1, vec4(0.0, 0.0, 0.0, 1.0));
-	drawScene(view * shadowProjection);
+	drawScene(view * getShadowProjection(usePerspectiveShadow));
 
 	glutSwapBuffers();
 	Angel::CheckError();
@@ -343,6 +316,21 @@ void keyboard(unsigned char key, int x, int y)
 	}
 }
 
+void MouseWheel(int wheel, int direction, int x, int y)
+{
+    wheel=0;
+    if (direction==-1)
+    {
+        eyePointSpericalCoordinate -= 0.5;
+ 
+    }
+    else if (direction==+1)
+    {
+        eyePointSpericalCoordinate += 0.5;
+    }
+	glutPostRedisplay();
+}
+
 int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
 
@@ -362,6 +350,7 @@ int main(int argc, char* argv[]) {
 	glutTimerFunc(FRAMERATE_MS, timerEvent, 0);
 	glutMotionFunc(mouseMotion);
 	glutPassiveMotionFunc(mouseMotion);
+	glutMouseWheelFunc(MouseWheel);
 	glutKeyboardFunc(keyboard);
 	glutReshapeWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 
