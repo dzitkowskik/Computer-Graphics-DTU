@@ -307,6 +307,15 @@ void keyboard(unsigned char key, int x, int y)
 		}
 		glutPostRedisplay();
 		break;
+	case 'd':
+		if (shadowDistance == -4)
+		{
+			shadowDistance = -8;
+		} else {
+			shadowDistance = -4;
+		}
+		glutPostRedisplay();
+		break;
 	case '1':
 		lightType = 0.0f;
 		break;
