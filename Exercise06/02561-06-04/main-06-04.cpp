@@ -160,31 +160,31 @@ void keyboard(unsigned char c, int x, int y){
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			break;
 		case '2':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("S: Repeat");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			break;
 		case '3':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("T: Mirrored repeat");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 			break;
 		case '4':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("S: Mirrored repeat");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 			break;
 		case '5':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("T: Clamp to edge");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_EDGE);
 			break;
 		case '6':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("S: Clamp to edge");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_EDGE);
 			break;
 		case '7':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("T: Clamp to border");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_BORDER);
 			break;
 		case '8':
-			glutSetWindowTitle("T: Repeat");
+			glutSetWindowTitle("S: Clamp to border");
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_BORDER);
 			break;
 	}

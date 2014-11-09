@@ -15,10 +15,7 @@ void main()
     gl_Position = Projection * ModelView * vec4(vPosition, 1.0);
 
 	vec3 normal = normalize(transpose(inverse(mat3(ModelView))) * vNormal);
-	//vec3 normal = normalize(ModelView * vec4(vNormal, 0.0)).xyz;
-	
 	vec3 position = vec3(ModelView * vec4(vPosition, 1.0));
-	
 	vec3 surfToLight = normalize(vec3(LightPosition) - position);
 	vec3 surfToCamera = normalize(-position);
 	vec3 reflection = reflect(-surfToLight, normal);
