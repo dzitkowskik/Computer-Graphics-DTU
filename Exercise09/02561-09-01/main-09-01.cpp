@@ -51,8 +51,8 @@ void loadGeometry();
 
 void setupStencil(mat4& projection, mat4& modelView){
 	glClear(GL_STENCIL_BUFFER_BIT);			 // Clear stencil buffer (set values to 0)
-	glStencilFunc(GL_ALWAYS, 1, 1);			 //Test always success, value written 1
-	glColorMask(false, false, false, false); //Disable writting in color buffer
+	glStencilFunc(GL_ALWAYS, 1, 1);			 // Test always success, value written 1
+	glColorMask(false, false, false, false); // Disable writting in color buffer
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); //Stencil & Depth test passes => replace existing value in stencil buffer
 
 	for (int i=0;i<meshes.size();i++){
