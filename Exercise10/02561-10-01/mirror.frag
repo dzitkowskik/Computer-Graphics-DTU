@@ -3,13 +3,13 @@
 uniform samplerCube cubemap;
 uniform vec3 cameraPos;
 
-in vec3 vNormal;
-
+in vec3 vPosition;
 out vec4 fragColor;
 
 void main(void)
 {
-	// todo replace this
-	vec3 normalizedNormal = (vNormal + vec3(1.0,1.0,1.0)) / 2.0;
-	fragColor = vec4(normalizedNormal, 1.0);
+	vec3 normal = normalize(vPosition);
+	vec3 incidence = normalize(vPosition - cameraPos);
+	vec3 reflection = normalize(reflect(incidence, normal));
+	fragColor = texture(cubemap, reflection);
 }

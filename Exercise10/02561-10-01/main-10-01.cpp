@@ -122,6 +122,7 @@ Shader loadShader(const char* vertShader, const char* fragShader){
 
 void drawMeshObject(mat4 & projection, mat4 & modelView, MeshObject& meshObject) {
 	glUseProgram(meshObject.shader.shaderProgram);
+	
 	if (meshObject.shader.projectionUniform != GL_INVALID_INDEX){
 		glUniformMatrix4fv(meshObject.shader.projectionUniform, 1, GL_TRUE, projection);
 	}
@@ -190,16 +191,61 @@ void mouseMovement(int x, int y){
 	glutPostRedisplay();
 }
 
+void loadCubemapTexture(const char* cube[], GLenum types[])
+{
+	glActiveTexture(GL_TEXTURE0); 
+    glGenTextures(1, &cubemapTexture);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+
+    for (unsigned int i = 0; i < 6; i++) 
+	{
+		unsigned int nWidth, nHeight;
+        void* image = loadBMPRaw(cube[i], nWidth, nHeight);
+        glTexImage2D(
+			types[i],
+			0, //level
+			GL_RGB8, //internal format
+			nWidth, //width
+			nHeight, //height
+			0, //border
+			GL_BGR, //format - Not BMP uses BGR not RGB
+			GL_UNSIGNED_BYTE, //type
+			image);
+
+        delete [] image;
+    } 
+
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+}
+
 void initCubemapTexture() {
 	
-	const char* cube[] = {"textures/cm_left.bmp", 
-								"textures/cm_right.bmp", 
-								"textures/cm_top.bmp", 
-								"textures/cm_bottom.bmp", 
-								"textures/cm_back.bmp", 
-								"textures/cm_front.bmp" };
+	const char* cube[] = 
+	{
+		"textures/cm_left.bmp", 
+		"textures/cm_right.bmp", 
+		"textures/cm_top.bmp", 
+		"textures/cm_bottom.bmp", 
+		"textures/cm_back.bmp", 
+		"textures/cm_front.bmp" 
+	};
+
+	GLenum types[] = 
+	{
+		GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+	};
 
 	 // todo load cubemap into the variable cubemapTexture
+	loadCubemapTexture(cube, types);
 }
 
 void initNormalmapTexture(){

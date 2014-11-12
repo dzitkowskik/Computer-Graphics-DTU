@@ -3,8 +3,9 @@
 uniform samplerCube cubemap;
 
 out vec4 fragColor;
+in vec3 vObjPos;
 
 void main(void)
 {
-	fragColor = vec4(1.0,1.0,1.0,1.0);
+	fragColor = texture(cubemap, normalize(vObjPos));
 }
