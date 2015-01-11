@@ -32,7 +32,7 @@
     <None Include="color-shader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{570AC744-C91B-47DB-BAF0-11E7A32AE4D2}</ProjectGuid>
+    <ProjectGuid>{C58746B1-DEB5-41B9-A6FE-AB7EC65AED28}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ExampleImplementationUsingAngleMSVC</RootNamespace>
   </PropertyGroup>

@@ -27,7 +27,7 @@
     <ClInclude Include="select.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{81E5C491-C4DB-4E32-90EA-32DCD0B54311}</ProjectGuid>
+    <ProjectGuid>{36EBE3B8-1093-4C16-BFA3-B8A80AE7CECF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ExampleImplementationUsingAngleMSVC</RootNamespace>
     <ProjectName>02561-04-02</ProjectName>

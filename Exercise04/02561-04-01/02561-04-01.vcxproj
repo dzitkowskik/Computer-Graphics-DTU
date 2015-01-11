@@ -34,7 +34,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{570AC744-C91B-47DB-BAF0-11E7A32AE4D2}</ProjectGuid>
+    <ProjectGuid>{D691B55C-D55D-4CC0-8A57-D7469B40DCAC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ExampleImplementationUsingAngleMSVC</RootNamespace>
     <ProjectName>02561-04-01</ProjectName>
