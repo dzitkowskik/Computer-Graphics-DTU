@@ -206,7 +206,7 @@ GLuint buildFrameBufferObject(int width, int height, GLuint textureId) {
 }
 
 GLuint createVertexArrayObject(GLuint vertexBuffer, const Shader & shader) {
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	//glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
 	GLuint vertexArrayObject;
 

@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercises", "Exercises", "{2B67E194-EB93-41A4-9D93-B8550ED01E8B}"
+	ProjectSection(SolutionItems) = preProject
+		ex01.htm = ex01.htm
+		ex02.htm = ex02.htm
+		ex02.js = ex02.js
+		ex03.htm = ex03.htm
+		ex03.js = ex03.js
+		ex04.htm = ex04.htm
+		ex04.js = ex04.js
+		ex05.htm = ex05.htm
+		ex05.js = ex05.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Angel", "Angel", "{0DD2B52F-8E61-4630-BD60-CAB7D97E686F}"
+	ProjectSection(SolutionItems) = preProject
+		angel\initShaders.js = angel\initShaders.js
+		angel\initShaders2.js = angel\initShaders2.js
+		angel\MV.js = angel\MV.js
+		angel\README.txt = angel\README.txt
+		angel\webgl-utils.js = angel\webgl-utils.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
